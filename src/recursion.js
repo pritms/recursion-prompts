@@ -28,10 +28,26 @@ if (array.length === 0) {
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+  var result = 0;
+  if(!Array.isArray(array)) {
+    return array;
+  }
+  for (var index = 0; index < array.length; index++) {
+    result = result + arraySum(array[index]);
+  }
+  return result;
 };
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+  n = Math.abs(n);
+  if (n === 0) {
+    return true;
+  }
+  if (n === 1) {
+    return false;
+  }
+  return isEven(n - 2);
 };
 
 // 5. Sum all integers below a given integer.
