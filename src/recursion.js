@@ -21,7 +21,7 @@ var factorial = function(n) {
 var sum = function(array) {
   var result = 0;
   if (array.length === 0) {
-    return result;
+    return 0;
   }
  result = array[0] + sum(array.slice(1));
  return result;
@@ -44,7 +44,8 @@ var arraySum = function(array) {
 var isEven = function(n) {
   if (n === 0) {
     return true;
-  } else if (n === 1) {
+  }
+  if (n === 1) {
     return false;
   }
   return isEven(Math.abs(n - 2));
@@ -68,6 +69,21 @@ var sumBelow = function(n) {
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
 var range = function(x, y) {
+  var result = [];
+  var sign = 1;
+  if (x > y) {
+    sign = -1;
+  }
+  if (x === undefined || y === undefined || Math.abs(x - y) <= 1) {
+    return [];
+  }
+  var start = x + sign;
+  var end = y - sign;
+  if (start === end) {
+    result.push(start);
+  }
+  result = result.concat(range(start, end));
+  return result;
 };
 
 // 7. Compute the exponent of a number.
@@ -116,8 +132,14 @@ var reverse = function(string) {
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
-
-
+  string = string.toLowerCase().split(' ').join('');
+if (string.length <= 1) {
+  return true;
+}
+if (string[0] === string[string.length - 1]) {
+  return palindrome(string.slice(1, string.length - 1));
+}
+return false;
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -199,11 +221,32 @@ var countKeysInObj = function(obj, key) {
 // countValuesInObj(obj, 'r') // 2
 // countValuesInObj(obj, 'e') // 1
 var countValuesInObj = function(obj, value) {
+  var count = 0;
+    if (typeof obj !== 'object') {
+      if (obj === value) {
+        return 1;
+      }
+      return 0;
+    }
+    for (var key in obj) {
+     count = count + countValuesInObj(obj[key], value);
+    }
+  return count;
 };
 
 // 24. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
 var replaceKeysInObj = function(obj, oldKey, newKey) {
+  if (obj[oldKey] !== undefined) {
+    obj[newKey] = obj[oldKey];
+    delete obj[oldKey];
+  }
+  for (var key in obj) {
+    if (typeof obj[key] === 'object') {
+      replaceKeysInObj(obj[key], oldKey, newKey);
+    }
+  }
+  return obj;
 };
 
 // 25. Get the first n Fibonacci numbers. In the Fibonacci sequence, each subsequent
