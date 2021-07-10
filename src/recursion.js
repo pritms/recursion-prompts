@@ -74,16 +74,15 @@ var range = function(x, y) {
   if (x > y) {
     sign = -1;
   }
-  if (x === undefined || y === undefined || Math.abs(x - y) <= 1) {
+  if ( x === y) {
     return [];
   }
   var start = x + sign;
-  var end = y - sign;
-  if (start === end) {
-    result.push(start);
+  if (Math.abs(start - y) < 1) {
+    return [];
   }
-  result = result.concat(range(start, end));
-  return result;
+  result.push(start);
+  return result.concat(range(x + sign, y));
 };
 
 // 7. Compute the exponent of a number.
